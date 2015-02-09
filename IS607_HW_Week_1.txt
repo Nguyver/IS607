@@ -1,0 +1,97 @@
+--1) Which destination in the flights database is the furthest distance away?
+select * from flights; 
+select max(distance) from flights; --4983
+select * from flights order by distance desc;
+-- The furthest flight from JFK is to HNL (Honolulu).
+-- I would drop just about anything to leave this snowy weather for Honolulu
+
+/*2)
+What are the different numbers of engines in the planes 
+table? For each number of engines, which aircraft have
+the most number of seats?
+*/
+
+select * from planes;
+select distinct engines from planes;
+-- Different number of engines: 1,2,3,4
+
+Select engines, max(seats) as seats from planes group by engines order by engines;
+select distinct manufacturer, model from planes where engines = 1 and seats =16;
+select distinct manufacturer, model from planes where engines = 2 and seats =400;
+select distinct manufacturer, model from planes where engines = 3 and seats =379;
+select distinct manufacturer, model from planes where engines = 4 and seats =450;
+
+/*
+1 Engine: "DEHAVILLAND";"OTTER DHC-3"
+2 Engines: Boeing "777-200", "777-222", "777-224", "777-232"
+3 Engines: "AIRBUS";"A330-223"
+4 Engines: "BOEING";"747-451"
+*/
+
+--3)
+--What weather conditions are associated with New York City departure delays?
+SELECT f.year, f.month, f.day, f.origin, f.dep_time, f.dep_delay, w.hour, w.temp, w.dewp, 
+	w.humid, w.wind_dir, w.wind_speed, w.wind_gust, w.precip, w.pressure, w.visib
+FROM Flights f INNER JOIN Weather w 
+	ON (f.origin = w.origin AND f.year = w.year AND f.month = w.month
+	AND f.day = w.day AND f.hour = w.hour)
+WHERE f.dep_delay > 29 --Only looking at delays of 30 mins or more
+	--AND visib < 2
+	--AND precip > 0.02
+	--AND wind_gust >20
+	AND temp < 33
+ORDER BY f.dep_delay desc, wind_dir
+--20307 Total Records
+--Visibility < 2 miles: 738
+--Precipitation > 0.02: 61
+--wind gust > 20: 1934
+--temp < 33: 2006
+--Temperature and Wind gust seems to be the largest reasons for delays
+
+--4)
+--Are older planes more likely to be delayed?
+--Assumptions: Plans 10 years and older are considered old planes
+SELECT avg(dep_delay) avg_old
+FROM flights f INNER JOIN (select tailnum from planes where year <2004) p_old ON p_old.tailnum = f.tailnum
+WHERE f.dep_delay >0;
+--39.285
+
+SELECT avg(dep_delay) avg_new
+FROM flights f INNER JOIN (select tailnum from planes where year > 2003) p_new ON p_new.tailnum = f.tailnum
+WHERE f.dep_delay >0;
+--39.134
+--Older planes seems to have a slightly larger average delay
+
+SELECT avg(dep_delay) avg_new, sum(dep_delay) sum_new
+FROM flights f INNER JOIN (select tailnum from planes where year > 2003) p_new ON p_new.tailnum = f.tailnum
+WHERE f.dep_delay >0;
+--39.134;1676947
+select avg(count) from (
+SELECT count(*) count, f.tailnum
+FROM flights f INNER JOIN (select tailnum from planes where year <2004) p_old ON p_old.tailnum = f.tailnum
+WHERE f.dep_delay >0
+GROUP BY f.tailnum) old_count;
+--33.458 delays per old plane for 2013
+
+select avg(count) from (
+SELECT count(*) count, f.tailnum
+FROM flights f INNER JOIN (select tailnum from planes where year > 2003) p_new ON p_new.tailnum = f.tailnum
+WHERE f.dep_delay >0
+GROUP BY f.tailnum) new_count;
+--39.385 delays per new plane for 2013
+--Newer planes seems to have more occurances of delays.
+
+
+
+--5)
+/*
+Are there more larger planes (100+ seats) or smaller planes (< 100 seats) that fly to HNL.
+*/
+select flights.tailnum, origin, dest, seats, 
+	CASE WHEN seats > 100 THEN 'Large'
+		ELSE 'Small'
+	END
+from flights, planes
+WHERE flights.tailnum = planes.tailnum AND dest = 'HNL';
+
+--Looks like no 'small' planes fly from NYC are to Hawaii
