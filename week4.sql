@@ -553,9 +553,8 @@ INSERT INTO nba_personnel (employee_id, employee_name, team_id, position_id, rep
 select * from nba_personnel;
 select * from positions;
 select * from team;
-commit;
 
-
+--Provide a single select statement that displays the information in the table showing who reports to whom
 SELECT
 	person.EMPLOYEE_NAME, 
 	t.TEAM_NAME,
