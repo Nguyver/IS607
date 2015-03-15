@@ -1,0 +1,80 @@
+---
+title: 'IS607: Project 2'
+author: "Vuthy & Sreejaya"
+output: html_document
+---
+
+```
+In your second project, you are asked to perform an exploratory data analysis that compares data sets.
+
+Here is the data to be analyzed--it is actually four short data sets:
+```
+![Data Set](https://raw.githubusercontent.com/Nguyver/IS607/master/DataSet.PNG)
+
+```{r}
+#install.packages("RCurl")
+require("RCurl")
+require("ggplot2")
+require(gridExtra)
+```
+
+Since we were working on this project together, we needed a way to load the data from the web. We did not want to read the data from our local directory, so we put the dataset in github and sourced it from there.
+
+```{r}
+url <- "https://raw.githubusercontent.com/Nguyver/IS607/master/DataExploratory.csv"
+myData <- getURL(url, ssl.verifypeer=FALSE)
+data.df <- read.csv(textConnection(myData))
+```
+
+
+The summary look of the data.
+
+```{r}
+summary(data.df)
+```
+
+```{r}
+g1 <- ggplot(data=data.df, aes(x=x1, y=y1)) + geom_point() +
+  labs(title="I", x="X", y="Y")
+g2 <- ggplot(data=data.df, aes(x=x2, y=y2)) + geom_point() +
+  labs(title="II", x="X", y="Y")
+g3 <- ggplot(data=data.df, aes(x=x3, y=y3)) + geom_point() +
+  labs(title="III", x="X", y="Y")
+g4 <- ggplot(data=data.df, aes(x=x4, y=y4)) + geom_point() +
+  labs(title="IV", x="X", y="Y")
+
+grid.arrange(g1, g2, g3, g4, ncol=2)
+
+```
+```
+Looks like dataset III and IV have one outlier each
+```
+
+```{r}
+ggplot(data = data.df) + 
+  labs(x="X", y="Y") + 
+  geom_point(aes(x=x1, y=y1, color="red")) +
+  geom_point(aes(x=x2, y=y2, color = "blue")) +
+  geom_point(aes(x=x3, y=y3, color = "yellow")) +
+  geom_point(aes(x=x4, y=y4, color = "green"))
+```
+
+After realizing that the X values were the same for the first 3 datasets, we graphed just the three data sets to see if we could find anything interesting. The first 3 datasets are trending upwards.
+
+```{r}
+ggplot(data = data.df) + 
+  labs(x="X", y="Y") + 
+  geom_point(aes(x=x1, y=y1, color = "red")) +
+  geom_point(aes(x=x2, y=y2, color = "blue")) +
+  geom_point(aes(x=x3, y=y3, color = "yellow"))
+
+
+ggplot(data = data.df) + 
+  labs(x="X", y="Y") + 
+  geom_line(aes(x=x1, y=y1, color = "red")) +
+  geom_line(aes(x=x2, y=y2, color = "blue")) +
+  geom_line(aes(x=x3, y=y3, color = "yellow"))
+
+```
+
+
