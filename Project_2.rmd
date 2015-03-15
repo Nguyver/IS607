@@ -31,6 +31,7 @@ The summary look of the data.
 
 ```{r}
 summary(data.df)
+
 ```
 
 ```{r}
@@ -47,7 +48,7 @@ grid.arrange(g1, g2, g3, g4, ncol=2)
 
 ```
 ```
-Looks like dataset III and IV have one outlier each
+Looks like dataset III and IV have one outlier each. Dataset 4 in itself is strange
 ```
 
 ```{r}
@@ -75,6 +76,14 @@ ggplot(data = data.df) +
   geom_line(aes(x=x2, y=y2, color = "blue")) +
   geom_line(aes(x=x3, y=y3, color = "yellow"))
 
+
+ggplot(data.df) + geom_density(alpha=.2, aes(y1, fill="yellow")) +
+  geom_density(alpha=.2, aes(y2, fill="red")) +
+  geom_density(alpha=.2, aes(y3, fill="lightgreen")) +
+  geom_density(alpha=.2, aes(y4, fill="purple"))
+
 ```
+
+
 
 
