@@ -1,0 +1,14 @@
+Title: Android Programming
+Author: Bill Phillips, Brian Hardy
+Publisher:  Big Nerd Ranch Guides
+Publication Date: April 7, 2013
+
+Title: Ender's Game
+Author: Orson Scott Card
+Publisher: Tor Books
+Publication Date: April 1, 2010
+
+Title: The Hobbit
+Author: J.R.R. Tolkien
+Publisher: Houghton Mifflin Harcourt
+Publication Date:  February 15, 2012

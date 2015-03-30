@@ -1,0 +1,27 @@
+<books>
+    <book>
+        <title>Android Programming</title> 
+        <author>
+        	<name>Bill Phillips</name>
+        	<name>Brian Hardy</name>
+        </author>
+        <publisher>Big Nerd Ranch Guides</publisher>
+        <publicationDate>April 7, 2013</publicationDate>        
+    </book>
+    <book>
+        <title>Ender's Game</title> 
+        <author>
+        	<name>Orson Scott Card</name>
+        </author>
+        <publisher>Tor Books</publisher>
+        <publicationDate>April 1, 2010</publicationDate>   
+    </book>
+    <book>
+        <title>The Hobbit</title> 
+        <author>
+        	<name>J.R.R. Tolkien</name>
+        </author>
+	<publisher>Houghton Mifflin Harcourt</publisher>
+	<publicationDate>February 15, 2012</publicationDate>   
+    </book>
+</books>
