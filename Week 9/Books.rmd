@@ -1,0 +1,52 @@
+---
+title: "Week 9"
+author: "Vuthy"
+date: "Sunday, March 29, 2015"
+output: html_document
+---
+
+```{r message=FALSE}
+library(XML)
+library(RCurl)
+library(rjson)
+```
+
+```{r}
+#File location
+url.html <- "https://raw.githubusercontent.com/Nguyver/IS607/master/Week%209/books.htm"
+url.xml <- "https://raw.githubusercontent.com/Nguyver/IS607/master/Week%209/books.xml"
+url.json <- "https://raw.githubusercontent.com/Nguyver/IS607/master/Week%209/books.json"
+
+#Get the Data Files
+my.html <- getURL(url.html, ssl.verifypeer=FALSE)
+my.xml <- getURL(url.xml, ssl.verifypeer=FALSE)
+my.json <- getURL(url.json, ssl.verifypeer=FALSE)
+
+#Read in the data files
+books.html <- readHTMLTable(my.html)
+books.xml <- xmlParse(my.xml)
+books.json <- fromJSON(my.json)
+
+#Print out the data files
+books.html
+books.xml
+books.json
+
+#Convert to dataframes
+books.html.df <- data.frame(books.html)
+books.json.df <- data.frame(books.json)
+books.xml.list <- xmlToList(books.xml, addAttributes=FALSE)
+books.xml.df <- data.frame(books.xml.list)
+
+#View(books.html.df)
+#View(books.json.df)
+#View(books.xml.df)
+
+books.html.df
+books.json.df
+books.xml.df
+
+
+#The HTML data frame looks different compared to the other two data frames.
+#The xml and json dataframes look similar
+```
